@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+
+      <script
+              src="https://code.jquery.com/jquery-3.3.1.min.js"
+              integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+              crossorigin="anonymous"></script>
+    <title>BOX GAME</title>
+      <style>
+          .Box{
+              display: inline-block;
+              padding: 15px;
+              margin: 2px;
+              color: white;
+          }
+          .rightBox{
+            border: 1px solid red;
+              background-color: red;
+          }
+          .leftBox{
+              border: 1px solid green;
+              background-color: green;
+          }
+          .blankBox{
+              border: 1px dashed black;
+              min-width: 15px;
+          }
+      </style>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+
+    <div id="board"></div>
+
+  <script>
+      var board = $("#board");
+      var boxTemplate = {
+          "R":`<div class="Box rightBox">-></div>`,
+          "L":`<div class="Box leftBox"><-</div>`,
+          "B":`<div class="Box blankBox">&nbsp;</div>`
+      }
+      var boxPosition = ["R","R","R","R","B","B","L","L","L","L"];
+      var winBoxPosition = ["L","L","L","L","B","B","R","R","R","R"];
+
+      function randerBoxes(){
+            var boxes = "";
+            boxPosition.map((box) => {
+                boxes += boxTemplate[box];
+            });
+            board.html(boxes);
+            addEvents();
+      }
+      function checkWin(){
+          if(boxPosition+"" == winBoxPosition+""){
+              alert("YOU WON!");
+              boxPosition = ["R","R","R","R","B","B","L","L","L","L"];
+              randerBoxes();
+          }
+      }
+
+      function moveBox(index) {
+          switch(boxPosition[index]) {
+              case "R":
+                  if(boxPosition[index+1] =="B")
+                  {
+                      boxPosition[index] = "B";
+                      boxPosition[index+1] = "R";
+                  }
+                  if(boxPosition[index+1] =="L" && boxPosition[index+2] =="B")
+                  {
+                      boxPosition[index] = "B";
+                      boxPosition[index+2] = "R";
+                  }
+                  break;
+              case "L":
+                  if(boxPosition[index-1] =="B")
+                  {
+                      boxPosition[index] = "B";
+                      boxPosition[index-1] = "L";
+                  }
+                  if(boxPosition[index-1] =="R" && boxPosition[index-2] =="B")
+                  {
+                      boxPosition[index] = "B";
+                      boxPosition[index-2] = "L";
+                  }
+                  break;
+              default:
+          }
+          randerBoxes();
+          setTimeout(function () {
+              checkWin();
+          },100);
+
+      }
+
+      function addEvents(){
+          $(".Box").click(function(){
+              var boxPos = $(this).index();
+              moveBox(boxPos);
+          });
+      }
+
+      function init(){
+          randerBoxes();
+      }
+
+      $(function () {
+          init();
+      })
+
+  </script>
+  </body>
+</html>

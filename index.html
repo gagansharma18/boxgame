@@ -50,7 +50,7 @@
       var boxPosition = ["R","R","R","R","B","B","L","L","L","L"];
       var winBoxPosition = ["L","L","L","L","B","B","R","R","R","R"];
 
-      function randerBoxes(){
+      function renderBoxes(){
             var boxes = "";
             boxPosition.map((box) => {
                 boxes += boxTemplate[box];
@@ -62,7 +62,7 @@
           if(boxPosition+"" == winBoxPosition+""){
               alert("YOU WON!");
               boxPosition = ["R","R","R","R","B","B","L","L","L","L"];
-              randerBoxes();
+              renderBoxes();
           }
       }
 
@@ -94,7 +94,7 @@
                   break;
               default:
           }
-          randerBoxes();
+          renderBoxes();
           setTimeout(function () {
               checkWin();
           },100);
@@ -109,7 +109,7 @@
       }
 
       function init(){
-          randerBoxes();
+          renderBoxes();
       }
 
       $(function () {
